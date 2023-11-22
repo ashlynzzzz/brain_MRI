@@ -79,6 +79,6 @@ def extract_data(fp):
     return x_train, y_train, x_test, y_test
 
 
-x_train, y_train, x_test, y_test = extract_data('')
-print(y_train)
-print(np.count_nonzero(x_train == 0))
+# x_train, y_train, x_test, y_test = extract_data('')
+# print(y_train)
+# print(np.count_nonzero(x_train == 0))
