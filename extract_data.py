@@ -6,8 +6,6 @@ def extract_data(fp):
     '''
     Input: file path to ds000105_R2.0.2_raw folder
     Output: x_train, y_train, x_test, y_test
-    object0: scissor
-    object1: shoe
     9 pictures for each run each object
     '''
     pic_num = 9  # number of pictures for each object each run
