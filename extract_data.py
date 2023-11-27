@@ -19,8 +19,8 @@ def extract_data(fp):
     y_train = np.zeros(2*2*9*11)
     x_test = np.zeros((40, 64, 5, 2*2*9*1))
     y_test = np.zeros(2*2*9*1)
-    # object location for 12 runs
-    filter = np.array([[5, 0, 48, 0],   # 12, 120
+    # object location for 12 runs, obj0: scissor, obj1: shoe
+    filter_sci_sho = np.array([[5, 0, 48, 0],   # 12, 120
                         [63, 0, 34, 0],  # 156, 84
                         [34, 0, 77, 0],   # 84, 192
                         [106, 0, 5, 0],   # 264, 12
@@ -45,6 +45,33 @@ def extract_data(fp):
                         [106, 0, 48, 0],   # 264, 120
                         [106, 0, 92, 0],   # 264, 156
                         [106, 0, 77, 0]])  # 264, 192 
+    # object location for 12 runs, obj0: scissor, obj1: cat
+    filter_sci_cat = np.array([[5, 0, 34, 0],   # 12, 84
+                        [63, 0, 20, 0],  # 156, 48
+                        [34, 0, 5, 0],   # 84, 12
+                        [106, 0, 48, 0],   # 264, 120
+                        [20, 0, 92, 0],   # 48, 228
+                        [106, 0, 77, 0],   # 264, 192
+                        [34, 0, 92, 0],   # 84, 228
+                        [34, 0, 77, 0],   # 84, 192
+                        [106, 0, 34, 0],   # 264, 84
+                        [63, 0, 20, 0],   # 156, 48
+                        [106, 0, 5, 0],   # 264, 12
+                        [106, 0, 92, 0], # 264, 228 
+                        # sub2
+                        [5, 0, 34, 0],   # 12, 84
+                        [34, 0, 77, 0],  # 84, 192
+                        [106, 0, 34, 0],   # 264, 84
+                        [106, 0, 48, 0],   # 264, 120
+                        [63, 0, 20, 0],   # 156, 48
+                        [34, 0, 5, 0],   # 84, 12
+                        [20, 0, 92, 0],   # 48, 228
+                        [34, 0, 92, 0],   # 84, 228
+                        [63, 0, 20, 0],   # 156, 48
+                        [106, 0, 77, 0],   # 264, 192
+                        [106, 0, 5, 0],   # 264, 12
+                        [106, 0, 92, 0]])  # 264, 228 
+    
 
     # Create training data
     # Go through all the sub
@@ -65,7 +92,7 @@ def extract_data(fp):
             data = image.get_fdata()
             
             # Get object start number
-            obj0s, obj0e, obj1s, obj1e = filter[12*(s-1) + x-1, :]
+            obj0s, obj0e, obj1s, obj1e = filter_sci_cat[12*(s-1) + x-1, :]
             obj0s += offset
             obj1s += offset
             i = 0
@@ -95,7 +122,7 @@ def extract_data(fp):
     return x_train, y_train, x_test, y_test
 
 
-x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw')
+#x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw')
 #print(y_train)
-print(np.count_nonzero(y_train))
-print(np.count_nonzero(y_test))
+#print(np.count_nonzero(y_train))
+#print(np.count_nonzero(y_test))
