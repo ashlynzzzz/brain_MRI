@@ -10,13 +10,14 @@ def extract_data(fp):
     '''
     pic_num = 9  # number of pictures for each object each run
     offset = 2 # shift for response delay
+    sub_num = 3
     z_value = [27, 29, 31, 33, 35]
-    x_data = np.zeros((40, 64, 5, 2*2*9*12)) # (x, y, z, number of pictures)  432 = 2*2*9*12
-    y_data = np.zeros(2*2*9*12)
-    x_train = np.zeros((40, 64, 5, 2*2*9*11))
-    y_train = np.zeros(2*2*9*11)
-    x_test = np.zeros((40, 64, 5, 2*2*9*1))
-    y_test = np.zeros(2*2*9*1)
+    x_data = np.zeros((40, 64, 5, sub_num*2*9*12)) # (x, y, z, number of pictures)  648 = 3*2*9*12
+    y_data = np.zeros(sub_num*2*9*12)
+    x_train = np.zeros((40, 64, 5, sub_num*2*9*11))
+    y_train = np.zeros(sub_num*2*9*11)
+    x_test = np.zeros((40, 64, 5, sub_num*2*9*1))
+    y_test = np.zeros(sub_num*2*9*1)
     # object location for 12 runs, obj0: scissor, obj1: shoe
     filter_sci_sho = np.array([[5, 0, 48, 0],   # 12, 120
                         [63, 0, 34, 0],  # 156, 84
@@ -42,7 +43,20 @@ def extract_data(fp):
                         [63, 0, 92, 0],   # 156, 228
                         [106, 0, 48, 0],   # 264, 120
                         [106, 0, 92, 0],   # 264, 156
-                        [106, 0, 77, 0]])  # 264, 192 
+                        [106, 0, 77, 0],  # 264, 192 
+                        # sub3
+                        [106, 0, 48, 0],   # 264, 120
+                        [106, 0, 77, 0],  # 264, 192
+                        [106, 0, 48, 0],   # 84, 120
+                        [106, 0, 48, 0],   # 84, 120
+                        [63, 0, 77, 0],   # 84, 192
+                        [34, 0, 77, 0],   # 48, 192
+                        [20, 0, 34, 0],   # 156, 84
+                        [106, 0, 63, 0],   # 264, 156
+                        [63, 0, 92, 0],   # 156, 228
+                        [106, 0, 48, 0],   # 12, 120
+                        [106, 0, 77, 0],   # 264, 192
+                        [106, 0, 5, 0]])  # 264, 12 
     # object location for 12 runs, obj0: scissor, obj1: cat
     filter_sci_cat = np.array([[5, 0, 34, 0],   # 12, 84
                         [63, 0, 20, 0],  # 156, 48
@@ -68,12 +82,25 @@ def extract_data(fp):
                         [63, 0, 20, 0],   # 156, 48
                         [106, 0, 77, 0],   # 264, 192
                         [106, 0, 5, 0],   # 264, 12
-                        [106, 0, 92, 0]])  # 264, 228 
+                        [106, 0, 92, 0],  # 264, 228 
+                        # sub3
+                        [106, 0, 77, 0],   # 264, 192
+                        [106, 0, 34, 0],  # 264, 84
+                        [34, 0, 92, 0],   # 84, 228
+                        [34, 0, 77, 0],   # 84, 192
+                        [34, 0, 5, 0],   # 84, 12
+                        [20, 0, 92, 0],   # 48, 228
+                        [63, 0, 20, 0],   # 156, 48
+                        [106, 0, 5, 0],   # 264, 12
+                        [63, 0, 20, 0],   # 156, 48
+                        [5, 0, 34, 0],   # 12, 84
+                        [106, 0, 92, 0],   # 264, 228
+                        [106, 0, 48, 0]])  # 264, 120
     
 
     # Create training data
     # Go through all the sub
-    for s in range(1, 3):
+    for s in range(1, 4):
         
         # Go through all the run
         for x in range(1, 13):
@@ -105,22 +132,23 @@ def extract_data(fp):
 
     # Shuffle the data set
     # Generate a permutation of indices
-    perm = np.random.permutation(2*2*9*12)
+    perm = np.random.permutation(sub_num*2*9*12)
     # Apply the permutation to both arrays
     x_data = x_data[:, :, :, perm]
     y_data = y_data[perm]
     
     # take 11/12 as training set
-    x_train = x_data[:, :, :, 0: 397]
-    y_train = y_data[0: 397]
+    x_train = x_data[:, :, :, 0: sub_num*2*9*11+1]
+    y_train = y_data[0: sub_num*2*9*11+1]
     # take 1/12 as testing set
-    x_test = x_data[:, :, :, 397: 433]
-    y_test = y_data[397: 433]
+    x_test = x_data[:, :, :, sub_num*2*9*11+1: sub_num*2*9*12+1]
+    y_test = y_data[sub_num*2*9*11+1: sub_num*2*9*12+1]
     
     return x_train, y_train, x_test, y_test
 
-
-#x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw')
-#print(y_train)
-#print(np.count_nonzero(y_train))
-#print(np.count_nonzero(y_test))
+'''
+x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw')
+print(y_train)
+print(np.count_nonzero(y_train))
+print(np.count_nonzero(y_test))
+'''
