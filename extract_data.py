@@ -2,15 +2,16 @@ import nibabel as nib
 import matplotlib.pyplot as plt
 import numpy as np
 
-def extract_data(fp):
+def extract_data(fp, sub_num = 3, offset = 2, object = 1):
     '''
-    Input: file path to ds000105_R2.0.2_raw folder
+    Input: fp: file path to ds000105_R2.0.2_raw folder
+           sub_num: number of people we use. (up to 3)
+           offset: shift for response delay
+           object: 1 is scissor vs cat, 0 is scissor vs shoe
     Output: x_train, y_train, x_test, y_test
     9 pictures for each run each object
     '''
     pic_num = 9  # number of pictures for each object each run
-    offset = 2 # shift for response delay
-    sub_num = 3
     z_value = [27, 29, 31, 33, 35]
     x_data = np.zeros((40, 64, 5, sub_num*2*9*12)) # (x, y, z, number of pictures)  648 = 3*2*9*12
     y_data = np.zeros(sub_num*2*9*12)
@@ -96,11 +97,16 @@ def extract_data(fp):
                         [5, 0, 34, 0],   # 12, 84
                         [106, 0, 92, 0],   # 264, 228
                         [106, 0, 48, 0]])  # 264, 120
-    
+    # scissor vs shoe
+    if(object == 0):
+        filter = filter_sci_sho
+    # scissor vs cat
+    else:
+        filter = filter_sci_cat
 
     # Create training data
     # Go through all the sub
-    for s in range(1, 4):
+    for s in range(1, sub_num+1):
         
         # Go through all the run
         for x in range(1, 13):
@@ -117,7 +123,7 @@ def extract_data(fp):
             data = image.get_fdata()
             
             # Get object start number
-            obj0s, obj0e, obj1s, obj1e = filter_sci_cat[12*(s-1) + x-1, :]
+            obj0s, obj0e, obj1s, obj1e = filter[12*(s-1) + x-1, :]
             obj0s += offset
             obj1s += offset
             i = 0
@@ -146,9 +152,8 @@ def extract_data(fp):
     
     return x_train, y_train, x_test, y_test
 
-'''
-x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw')
-print(y_train)
-print(np.count_nonzero(y_train))
-print(np.count_nonzero(y_test))
-'''
+
+#x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw',2,1,0)
+#print(y_train)
+#print(np.count_nonzero(y_train))
+#print(np.count_nonzero(y_test))
