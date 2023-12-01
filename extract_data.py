@@ -13,11 +13,11 @@ def extract_data(fp, sub_num = 3, offset = 2, object = 1):
     '''
     pic_num = 9  # number of pictures for each object each run
     z_value = [27, 29, 31, 33, 35]
-    x_data = np.zeros((40, 64, 5, sub_num*2*9*12)) # (x, y, z, number of pictures)  648 = 3*2*9*12
+    x_data = np.zeros((40, 64, len(z_value), sub_num*2*9*12)) # (x, y, z, number of pictures)  648 = 3*2*9*12
     y_data = np.zeros(sub_num*2*9*12)
-    x_train = np.zeros((40, 64, 5, sub_num*2*9*9))
+    x_train = np.zeros((40, 64, len(z_value), sub_num*2*9*9))
     y_train = np.zeros(sub_num*2*9*9)
-    x_test = np.zeros((40, 64, 5, sub_num*2*9*3))
+    x_test = np.zeros((40, 64, len(z_value), sub_num*2*9*3))
     y_test = np.zeros(sub_num*2*9*3)
     # object location for 12 runs, obj0: scissor, obj1: shoe
     filter_sci_sho = np.array([[5, 0, 48, 0],   # 12, 120
