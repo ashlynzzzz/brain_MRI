@@ -15,10 +15,10 @@ def extract_data(fp, sub_num = 3, offset = 2, object = 1):
     z_value = [27, 29, 31, 33, 35]
     x_data = np.zeros((40, 64, 5, sub_num*2*9*12)) # (x, y, z, number of pictures)  648 = 3*2*9*12
     y_data = np.zeros(sub_num*2*9*12)
-    x_train = np.zeros((40, 64, 5, sub_num*2*9*11))
-    y_train = np.zeros(sub_num*2*9*11)
-    x_test = np.zeros((40, 64, 5, sub_num*2*9*1))
-    y_test = np.zeros(sub_num*2*9*1)
+    x_train = np.zeros((40, 64, 5, sub_num*2*9*9))
+    y_train = np.zeros(sub_num*2*9*9)
+    x_test = np.zeros((40, 64, 5, sub_num*2*9*3))
+    y_test = np.zeros(sub_num*2*9*3)
     # object location for 12 runs, obj0: scissor, obj1: shoe
     filter_sci_sho = np.array([[5, 0, 48, 0],   # 12, 120
                         [63, 0, 34, 0],  # 156, 84
@@ -144,11 +144,11 @@ def extract_data(fp, sub_num = 3, offset = 2, object = 1):
     y_data = y_data[perm]
     
     # take 11/12 as training set
-    x_train = x_data[:, :, :, 0: sub_num*2*9*11+1]
-    y_train = y_data[0: sub_num*2*9*11+1]
+    x_train = x_data[:, :, :, 0: sub_num*2*9*9+1]
+    y_train = y_data[0: sub_num*2*9*9+1]
     # take 1/12 as testing set
-    x_test = x_data[:, :, :, sub_num*2*9*11+1: sub_num*2*9*12+1]
-    y_test = y_data[sub_num*2*9*11+1: sub_num*2*9*12+1]
+    x_test = x_data[:, :, :, sub_num*2*9*9+1: sub_num*2*9*12+1]
+    y_test = y_data[sub_num*2*9*9+1: sub_num*2*9*12+1]
     
     return x_train, y_train, x_test, y_test
 
