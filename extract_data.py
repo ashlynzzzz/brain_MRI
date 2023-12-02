@@ -2,7 +2,7 @@ import nibabel as nib
 import matplotlib.pyplot as plt
 import numpy as np
 
-def extract_data(fp, sub_num = 3, offset = 2, object = 1):
+def extract_data(fp, sub_num = 3, offset = 0, object = 1):
     '''
     Input: fp: file path to ds000105_R2.0.2_raw folder
            sub_num: number of people we use. (up to 3)
@@ -143,10 +143,10 @@ def extract_data(fp, sub_num = 3, offset = 2, object = 1):
     x_data = x_data[:, :, :, perm]
     y_data = y_data[perm]
     
-    # take 11/12 as training set
+    # take 3/4 as training set
     x_train = x_data[:, :, :, 0: sub_num*2*9*9+1]
     y_train = y_data[0: sub_num*2*9*9+1]
-    # take 1/12 as testing set
+    # take 1/4 as testing set
     x_test = x_data[:, :, :, sub_num*2*9*9+1: sub_num*2*9*12+1]
     y_test = y_data[sub_num*2*9*9+1: sub_num*2*9*12+1]
     
