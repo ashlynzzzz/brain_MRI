@@ -160,6 +160,11 @@ def extract_data(fp, sub_num = 3, offset = 0, object = 1):
     # Go through all the sub
     for s in range(1, sub_num+1):
         
+        if s == 5:
+            sub_id = 6
+        else:
+            sub_id = s
+        
         # Go through all the run
         for x in range(1, 13):
 
@@ -168,7 +173,7 @@ def extract_data(fp, sub_num = 3, offset = 0, object = 1):
             else:
                 y = str(x)
             # File path
-            file_path = fp + f'/sub-{s}/func/sub-{s}_task-objectviewing_run-{y}_bold.nii.gz'
+            file_path = fp + f'/sub-{sub_id}/func/sub-{sub_id}_task-objectviewing_run-{y}_bold.nii.gz'
 
             # Load the data
             image = nib.load(file_path)
