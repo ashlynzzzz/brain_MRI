@@ -210,7 +210,3 @@ def extract_data(fp, sub_num = 3, offset = 0, object = 1):
     return x_train, y_train, x_test, y_test
 
 
-#x_train, y_train, x_test, y_test = extract_data('project/ds000105_R2.0.2_raw',2,1,0)
-#print(y_train)
-#print(np.count_nonzero(y_train))
-#print(np.count_nonzero(y_test))
